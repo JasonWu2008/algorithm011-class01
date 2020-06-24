@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TwoNumberSum {
+public class NO1TwoNumberSum {
     public static void main(String[] args) {
-        int[] nums = {2, 7, 11, 15};
+        int[] nums = {15,7, 11, 2};
 //        int[] nums = {3, 2, 4};
 //        int[] nums = {3, 3};
-        int target = 18;
-        int result[] = new TwoNumberSum().twoSum2(nums, target);
+        int target = 13;
+        int result[] = new NO1TwoNumberSum().twoSum2(nums, target);
         for (int i : result) {
             System.out.println(i);
         }
