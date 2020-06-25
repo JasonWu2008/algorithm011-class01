@@ -1,5 +1,3 @@
-package jasonwu;
-
 import java.util.*;
 
 public class NO15ThreeNumberSum {
