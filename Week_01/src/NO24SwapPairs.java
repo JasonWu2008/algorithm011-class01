@@ -6,7 +6,7 @@ public class NO24SwapPairs {
         head.next.next.next = new ListNode(4);
         head.next.next.next.next = new ListNode(5);
         head.next.next.next.next.next = new ListNode(8);
-        new NO24SwapPairs().swapPairs(head);
+        new NO24SwapPairs().swapPairs2(head);
         System.out.println(head.val);
         ListNode node = head;
         while ((node = node.next) != null) {
@@ -15,15 +15,37 @@ public class NO24SwapPairs {
     }
 
     //1->2->3->4 => 2->1->4->3
+    public ListNode swapPairs2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode current = head;
+        ListNode next;
+        while ((next = current.next) != null) {
+            int nextValue = next.val;
+            next.val = current.val;
+            current.val = nextValue;
+
+            if (next.next != null) {
+                current = next.next;
+            } else {
+                break;
+            }
+
+        }
+        return head;
+    }
+
+    //1->2->3->4 => 2->1->4->3
     public ListNode swapPairs(ListNode head) {
         if (head == null || head.next == null) {
             return head;
         }
-        int tmpValue=head.val;
-        ListNode next=head.next;
-        head.val=next.val; //1=>2
-        head.next.val=tmpValue;
-        next.next=swapPairs(next.next); //2->4 => 1->4
+        int tmpValue = head.val;
+        ListNode next = head.next;
+        head.val = next.val; //1=>2
+        head.next.val = tmpValue;
+        next.next = swapPairs(next.next); //2->4 => 1->4
         return head;
     }
 }
