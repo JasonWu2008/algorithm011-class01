@@ -56,7 +56,15 @@ public class NO105BuildTree {
     }
 
     //终止条件：访问过的元素已满
-    //
+    /***
+     填充判断有没有填充,是通过用成员visited的Set来判断，当加到左节点或右节点后同时会加到visited列表里
+     整个过程有4个分支：
+     branch1:拿父节点值到中序遍历列表里找"左"边节点，没有填充时，放在父节点左节点，以"本节点"作为"根节点"，递归下探，比如节点：1，3，6
+     branch2:拿父节点值到中序遍历列表里找"左"边节点，有填充时，此时需要往右节点放，进入branch3:
+     拿父节点到中序遍历列表里找"右"边节点,又份两种情况：
+     branch3:如果没有填充，直接放在右节点上，比如节点：5,2,8
+     branch4:如果有填充，拿出"右"节点替换父节点，比如节点：2，7（2是放在5的右边还是0的右边）
+     ***/
     private void build(TreeNode parentNode, int[] preorder, int[] inorder) {
         if (visited.size() == preorder.length) {
             return;
