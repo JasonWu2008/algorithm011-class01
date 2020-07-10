@@ -44,9 +44,9 @@ public class NO236LowestCommonAncestor {
     }
 
 
-    //本质上是看qp是否在本节点(避免与树顶元素混淆)的左边和右边，如果是，本节点就是"最短公共祖先"
+    //本质上是看pq是否在本节点(避免与树顶元素混淆)的左边和右边，如果是，本节点就是"最短公共祖先"
     //如果pq分散在本节点的两侧，那本节点一定是"最短公共祖先"
-    //否则pq一定集在一侧，此时递归在一边不为空的节点找
+    //否则pq一定集中在一侧，此时递归下探查找
     //DFS递归遍历整棵树
     private TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root.val == p.val || root.val == q.val) {
