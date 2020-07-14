@@ -60,31 +60,31 @@ public class NO77CombineNumbers {
         TreeNode parent;
         List<TreeNode> children = new ArrayList<>();
 
-        public void setVal(int val) {
+        void setVal(int val) {
             this.val = val;
         }
 
-        public List<TreeNode> getChildren() {
+        List<TreeNode> getChildren() {
             return children;
         }
 
-        public int getDeep() {
+        int getDeep() {
             return deep;
         }
 
-        public void setDeep(int deep) {
+        void setDeep(int deep) {
             this.deep = deep;
         }
 
-        public int getVal() {
+        int getVal() {
             return val;
         }
 
-        public TreeNode getParent() {
+        TreeNode getParent() {
             return parent;
         }
 
-        public void setParent(TreeNode parent) {
+        void setParent(TreeNode parent) {
             this.parent = parent;
         }
 
