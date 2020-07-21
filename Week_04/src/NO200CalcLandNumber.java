@@ -1,17 +1,20 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class NO200CalcLandNumber {
-    //int[][]注意这里的"向下"的方向是+1，"向上"是-1，而不是坐标轴的刻度
-    private static final int[] RIGHT = {1, 0};
-    private static final int[] BOTTOM = {0, 1};
-    private static final int[] LEFT = {-1, 0};
-    private static final int[] ABOVE = {0, -1};
+    //注意：int[][]不要被LeetCode题解中坐标轴误导！！这里的"向右""向下"表示数组的位置
+    private static final int[] RIGHT = {0, 1};//行不变，列加1
+    private static final int[] BOTTOM = {1, 0};
+    private static final int[] LEFT = {0, -1};
+    private static final int[] ABOVE = {-1, 0};
 
     private static final List<int[]> DIRECTIONS = new ArrayList<>();
     private int rows = 0;
     private int columns = 0;
     private boolean[][] visited;
+    private Deque<Point> deque = new ArrayDeque<>();
 
     static {
         DIRECTIONS.add(RIGHT);
@@ -35,12 +38,68 @@ public class NO200CalcLandNumber {
                 {'0', '0', '0', '0', '0'},
                 {'0', '0', '0', '1', '1'}
         };
-        System.out.println(new NO200CalcLandNumber().numIslands(grids2));
+        char[][] grids3 = {
+                {'1', '1', '1'},
+                {'0', '1', '0'},
+                {'1', '1', '1'}
+        };
+        System.out.println(new NO200CalcLandNumber().processBFS(grids2));
+    }
+
+    private int processBFS(char[][] grid) {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        rows = grid.length;
+        columns = grid[0].length;
+        visited = new boolean[rows][columns];
+        int islandNumber = 0;
+        //rows
+        for (int i = 0; i < grid.length; i++) {
+            //columns
+            for (int j = 0; j < grid[i].length; j++) {
+                if (!visited[i][j] && grid[i][j] == '1') {
+                    islandNumber++;
+                    Point point = new Point(i, j);
+                    deque.addLast(point);
+                    bfs(grid);
+                }
+            }
+        }
+        return islandNumber;
+    }
+
+    private void bfs(char[][] grids) {
+        while (!deque.isEmpty()) {
+            Point point = deque.pop();
+            visited[point.rowIndex][point.columnIndex] = true;
+            System.out.println("pop: row:" + point.rowIndex + ", column:" + point.columnIndex);
+            for (int[] bfsDirection : DIRECTIONS) {
+                int rowIndex = point.rowIndex + bfsDirection[0];
+                int columnIndex = point.columnIndex + bfsDirection[1];
+                if (isInArea(rowIndex, columnIndex) && !visited[rowIndex][columnIndex] && grids[rowIndex][columnIndex] == '1') {
+                    Point newPoint = new Point(rowIndex, columnIndex);
+                    deque.addLast(newPoint);
+                    System.out.println("addLast: row:" + rowIndex + ", column:" + columnIndex);
+                    bfs(grids);
+                }
+            }
+        }
+    }
+
+    private class Point {
+        private int rowIndex;
+        private int columnIndex;
+
+        private Point(int rowIndex, int columnIndex) {
+            this.rowIndex = rowIndex;
+            this.columnIndex = columnIndex;
+        }
     }
 
     //网格移动的"驱动"是通过i*j次的循环完成的，虽然每次的dfs可能会标记很多"已访问"的节点，
     //但前进的路径依然会逐行扫，路径数目不会少，只不过不会进入dfs
-    private int numIslands(char[][] grid) {
+    private int processDFS(char[][] grid) {
         if (grid.length == 0 || grid[0].length == 0) {
             return 0;
         }
@@ -68,10 +127,10 @@ public class NO200CalcLandNumber {
     private void dfs(int i, int j, char[][] grids) {
         visited[i][j] = true;
         for (int[] direction : DIRECTIONS) {
-            int newX = i + direction[0];
-            int newY = j + direction[1];
-            if (isInArea(newX, newY) && !visited[newX][newY] && grids[newX][newY] == '1') {
-                dfs(newX, newY, grids);
+            int rowIndex = i + direction[0];
+            int columnIndex = j + direction[1];
+            if (isInArea(rowIndex, columnIndex) && !visited[rowIndex][columnIndex] && grids[rowIndex][columnIndex] == '1') {
+                dfs(rowIndex, columnIndex, grids);
             }
         }
     }
