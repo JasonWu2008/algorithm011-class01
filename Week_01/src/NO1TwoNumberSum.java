@@ -4,11 +4,15 @@ import java.util.Map;
 
 public class NO1TwoNumberSum {
     public static void main(String[] args) {
-        int[] nums = {15,7, 11, 2};
+//        int[] nums = {15, 7, 11, 2};
 //        int[] nums = {3, 2, 4};
-//        int[] nums = {3, 3};
-        int target = 13;
-        int result[] = new NO1TwoNumberSum().twoSum2(nums, target);
+        int[] nums = {3, 3};
+//        int[] nums = {3, 7, 3};
+//        int[] nums = {2, 7, 11, 15};
+//        int[] nums = {-3, 4, 3, 90};
+//        int[] nums = {-10, -1, -18, -19};
+        int target = 6;
+        int result[] = new NO1TwoNumberSum().twoSum3(nums, target);
         for (int i : result) {
             System.out.println(i);
         }
@@ -57,5 +61,39 @@ public class NO1TwoNumberSum {
         result[0] = valueAndIndexMap.get(valueA);
         result[1] = valueAndIndexMap.get(valueB);
         return result;
+    }
+
+    private int[] twoSum3(int[] nums, int target) {
+        Map<Integer, Integer[]> numMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            Integer[] indexes;
+            if ((indexes = numMap.get(num)) == null) {
+                indexes = new Integer[2];
+                indexes[0] = i;
+                numMap.put(num, indexes);
+                continue;
+            }
+            indexes[1] = i;
+        }
+        Arrays.sort(nums);
+        for (int i = 0, j = nums.length - 1; j >= 0; ) {
+            if (nums[i] + nums[j] == target) {
+                if (nums[i] == nums[j]) {
+                    Integer[] numArray = numMap.get(nums[i]);
+                    return numArray[0] > numArray[1] ? new int[]{numArray[1], numArray[0]} : new int[]{numArray[0], numArray[1]};
+                } else {
+                    int indexA = numMap.get(nums[i])[0];
+                    int indexB = numMap.get(nums[j])[0];
+                    return indexA > indexB ? new int[]{indexB, indexA} : new int[]{indexA, indexB};
+                }
+            }
+            if (nums[i] + nums[j] > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return new int[2];
     }
 }
