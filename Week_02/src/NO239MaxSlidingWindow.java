@@ -61,6 +61,8 @@ public class NO239MaxSlidingWindow {
         results[0] = nums[window.peek()];
         //窗口划过
         for (int i = k; i < nums.length; i++) {
+            //由于"挤出"的操作，window内的元素不一定都是满的，
+            //只有当window的第一个元素索引与"i-k"一样时表示队列已满
             if (window.getFirst() == i - k) {
                 window.removeFirst();
             }
