@@ -13,7 +13,7 @@ public class NO64FindMinPathSum {
     }
 
     //dp方程: newGrid[i][j] = Math.min(newGrid[i - 1][j], newGrid[i][j - 1]) + grid[i][j];
-    public int minPathSum(int[][] grid) {
+    int minPathSum(int[][] grid) {
         int[][] newGrid = new int[grid.length][grid[0].length];
         newGrid[0][0] = grid[0][0];
         for (int i = 1; i < grid[0].length; i++) {
